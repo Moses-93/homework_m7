@@ -195,10 +195,15 @@ def add_contact(args, book):
 @input_error
 def change_contact(args, book): # Функція для зміни номеру в існуючому контакті 
         name, old_phone, new_phone = args
-        if name in book:
-            record = book[name]
-            record.edit_phone(old_phone, new_phone)
-            return "Contact updated."
+        try:
+            if name not in book or len(new_phone) !=10:
+                raise ValueError(f"Incorrect phone number: {new_phone}")
+            else:
+                record = book[name]
+                record.edit_phone(old_phone, new_phone)
+                return "Contact updated." 
+        except Exception as e:
+            return e
 
 @input_error
 def show_phone(args, book): # Функція для виведення номеру по імені контакта 
